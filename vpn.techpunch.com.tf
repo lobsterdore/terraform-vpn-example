@@ -48,8 +48,3 @@ resource "digitalocean_droplet" "vpn.techpunch.com" {
     ]
   }
 }
-
-resource "digitalocean_domain" "default" {
-   name = "vpn.techpunch.com"
-   ip_address = "${digitalocean_droplet.vpn.techpunch.com.ipv4_address}"
-}
