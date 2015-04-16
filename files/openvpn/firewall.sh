@@ -28,7 +28,7 @@ iptables -A INPUT -i eth0 -p udp --dport 1194 -j ACCEPT
 iptables -A INPUT -i tun+ -j ACCEPT
 iptables -A FORWARD -i tun+ -j ACCEPT
 
-# Link eth0 and tun interfaces
+# vpn related rules
 iptables -A OUTPUT -m state --state NEW -o eth0 -j ACCEPT
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A FORWARD -m state --state NEW -o eth0 -j ACCEPT

@@ -1,2 +1,4 @@
-/.terraform
+.terraform
 *tfstate*
+files/openvpn/easy-rsa/
+files/openvpn/key-store/

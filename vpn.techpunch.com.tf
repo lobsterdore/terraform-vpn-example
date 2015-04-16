@@ -1,4 +1,4 @@
-resource "digitalocean_droplet" "vpn.techpunch.com" {
+resource "digitalocean_droplet" "vpn-techpunch-com" {
   image = "ubuntu-14-04-x64"
   name = "vpn.techpunch.com"
   region = "ams3"
@@ -29,21 +29,18 @@ resource "digitalocean_droplet" "vpn.techpunch.com" {
       "sudo apt-get update",
       "sudo apt-get -y upgrade",
       "sudo apt-get -y install openvpn",
-      "cp -R /root/openvpn/* /etc/openvpn/",
-      "rm -rf /root/openvpn",
-      "cp /etc/openvpn/techpunch.com-vpn/config-store/vpn.techpunch.com.conf /etc/openvpn/",
-      "mkdir /etc/openvpn/techpunch.com-vpn/keys",
-      "cp /etc/openvpn/techpunch.com-vpn/key-store/ca.crt /etc/openvpn/techpunch.com-vpn/keys/ca.crt",
-      "cp /etc/openvpn/techpunch.com-vpn/key-store/vpn.techpunch.com.crt /etc/openvpn/techpunch.com-vpn/keys/vpn.techpunch.com.crt",
-      "cp /etc/openvpn/techpunch.com-vpn/key-store/vpn.techpunch.com.key /etc/openvpn/techpunch.com-vpn/keys/vpn.techpunch.com.key",
-      "cp /etc/openvpn/techpunch.com-vpn/key-store/dh2048.pem /etc/openvpn/techpunch.com-vpn/keys/dh2048.pem",
-      "sh /etc/openvpn/firewall.sh",
+      "mkdir -p /etc/openvpn/keys",
+      "cp /root/openvpn/config-store/vpn.techpunch.com.conf /etc/openvpn/",
+      "cp /root/openvpn/key-store/ca.crt /etc/openvpn/keys/",
+      "cp /root/openvpn/key-store/vpn.techpunch.com.crt /etc/openvpn/keys/",
+      "cp /root/openvpn/key-store/vpn.techpunch.com.key /etc/openvpn/keys/",
+      "cp /root/openvpn/key-store/dh2048.pem /etc/openvpn/keys/",
+      "cp -R /root/openvpn/client-configs/ /etc/openvpn/",
+      "sh /root/openvpn/firewall.sh",
       "sh -c 'iptables-save > /etc/iptables.conf'",
       "echo 'post-up iptables-restore < /etc/iptables.conf' >> /etc/network/interfaces",
-      "rm -rf /etc/openvpn/techpunch.com-vpn/config-store /etc/openvpn/techpunch.com-vpn/key-store /etc/openvpn/techpunch.com-vpn/easy-rsa /etc/openvpn/firewall.sh",
-      "chmod 400 /etc/openvpn/techpunch.com-vpn/keys/*.key",
-      "chmod 400 /etc/openvpn/techpunch.com-vpn/keys/*.crt",
-      "chmod 400 /etc/openvpn/techpunch.com-vpn/keys/*.pem",
+      "rm -rf /root/openvpn",
+      "chmod -R 400 /etc/openvpn/keys",
       "service openvpn start"
     ]
   }
