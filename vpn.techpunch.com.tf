@@ -1,5 +1,5 @@
 resource "digitalocean_droplet" "vpn-techpunch-com" {
-  image = "ubuntu-14-04-x64"
+  image = "debian-7-0-x64"
   name = "vpn.techpunch.com"
   region = "ams3"
   size = "512mb"
