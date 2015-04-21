@@ -39,7 +39,7 @@ resource "digitalocean_droplet" "vpn-techpunch-com" {
       "sh /root/files/openvpn/firewall-server.sh",
       "sh -c 'iptables-save > /etc/iptables.conf'",
       "echo 'post-up iptables-restore < /etc/iptables.conf' >> /etc/network/interfaces",
-      "rm -rf /root/files/openvpn",
+      "rm -rf /root/files",
       "chmod -R 400 /etc/openvpn/keys",
       "service openvpn start"
     ]
