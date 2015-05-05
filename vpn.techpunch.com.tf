@@ -1,5 +1,5 @@
 resource "digitalocean_droplet" "vpn-techpunch-com" {
-  image = "debian-7-0-x64"
+  image = "debian-8-x64"
   name = "vpn.techpunch.com"
   region = "ams3"
   size = "512mb"
@@ -26,9 +26,9 @@ resource "digitalocean_droplet" "vpn-techpunch-com" {
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
-      "sudo apt-get update",
-      "sudo apt-get -y upgrade",
-      "sudo apt-get -y install openvpn",
+      "apt-get update",
+      "apt-get -y upgrade",
+      "apt-get -y install openvpn",
       "mkdir -p /etc/openvpn/keys",
       "cp /root/files/openvpn/config-store/vpn.techpunch.com.conf /etc/openvpn/",
       "cp /root/files/openvpn/key-store/ca.crt /etc/openvpn/keys/",
@@ -36,12 +36,12 @@ resource "digitalocean_droplet" "vpn-techpunch-com" {
       "cp /root/files/openvpn/key-store/vpn.techpunch.com.key /etc/openvpn/keys/",
       "cp /root/files/openvpn/key-store/dh2048.pem /etc/openvpn/keys/",
       "cp -R /root/files/openvpn/client-configs/ /etc/openvpn/",
-      "sh /root/files/openvpn/firewall-server.sh",
+      "sh /root/files/openvpn/firewall.sh",
       "sh -c 'iptables-save > /etc/iptables.conf'",
       "echo 'post-up iptables-restore < /etc/iptables.conf' >> /etc/network/interfaces",
       "rm -rf /root/files",
       "chmod -R 400 /etc/openvpn/keys",
-      "service openvpn start"
+      "service openvpn@vpn.techpunch.com start"
     ]
   }
 }
