@@ -36,7 +36,7 @@ resource "digitalocean_droplet" "vpn-techpunch-com" {
       "cp /root/files/openvpn/key-store/vpn.techpunch.com.key /etc/openvpn/keys/",
       "cp /root/files/openvpn/key-store/dh2048.pem /etc/openvpn/keys/",
       "cp -R /root/files/openvpn/client-configs/ /etc/openvpn/",
-      "sh /root/files/openvpn/firewall.sh",
+      "sh /root/files/firewall-server.sh",
       "sh -c 'iptables-save > /etc/iptables.conf'",
       "echo 'post-up iptables-restore < /etc/iptables.conf' >> /etc/network/interfaces",
       "rm -rf /root/files",
