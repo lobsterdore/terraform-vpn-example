@@ -16,7 +16,7 @@ resource "digitalocean_droplet" "vpn-techpunch-com" {
       timeout = "2m"
   }
 
-  # Copy openvpn config (need to create symlink in files)
+  # Copy openvpn config (need to create symlink in files for puppet and openvpn)
   provisioner "file" {
     source = "files"
     destination = "/root"
