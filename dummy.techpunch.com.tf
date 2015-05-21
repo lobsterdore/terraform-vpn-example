@@ -38,7 +38,7 @@ resource "digitalocean_droplet" "dummy-techpunch-com" {
       "cp /root/files/openvpn/key-store/dummy.techpunch.com.crt /etc/openvpn/keys/",
       "cp /root/files/openvpn/key-store/dummy.techpunch.com.key /etc/openvpn/keys/",
       "cp -R /root/files/openvpn/client-configs/ /etc/openvpn/",
-      "sh /root/files/openvpn/firewall.sh",
+      "sh /root/files/firewall-client.sh",
       "sh -c 'iptables-save > /etc/iptables.conf'",
       "echo 'post-up iptables-restore < /etc/iptables.conf' >> /etc/network/interfaces",
       "rm -rf /root/files",
