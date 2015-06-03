@@ -1,5 +1,6 @@
 .terraform
 *tfstate*
-files/openvpn/easy-rsa/
-files/openvpn/key-store/
+files/openvpn
+files/openvpn
 files/puppet
+.vagrant/
