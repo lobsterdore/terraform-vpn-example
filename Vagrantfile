@@ -1,24 +1,21 @@
 Vagrant.configure(2) do |config|
   config.vm.box = "debian/jessie64"
 
-  #config.vm.synced_folder "files", "/root/files", type: "rsync", rsync__args: ["--verbose", "--archive", "--delete", "-z"]
+  config.vm.synced_folder "files/puppet", "/root/files/puppet"
 
-  config.vm.synced_folder "files", "/root/files", owner: "root", group: "root", mount_options: ["dmode=775,fmode=664"]
-
-  config.vm.provider "virtualbox" do |v|
-      v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
-  end
+  config.vm.synced_folder "files/openvpn", "/root/files/openvpn"
 
   config.vm.provision "shell",
     inline: "
-        export FACTER_vagrant=1;
+        mkdir -p /etc/facter/facts.d;
+        echo -e '---\nvagrant:  1' > /etc/facter/facts.d/vagrant.yaml;
         FQDN=`hostname --fqdn`;
         mkdir -p /etc/openvpn/keys;
         cp /root/files/openvpn/key-store/ca.crt /etc/openvpn/keys/;
         cp /root/files/openvpn/key-store/$FQDN.crt /etc/openvpn/keys/;
         cp /root/files/openvpn/key-store/$FQDN.key /etc/openvpn/keys/;
-        cp /root/files/openvpn/key-store/dh2048.pem /etc/openvpn/keys/;
-        cp /root/files/puppet/* /etc/puppet/;
+        if [ $(hostname --fqdn | cut -f1 -d.) == 'vpn' ]; then cp /root/files/openvpn/key-store/dh2048.pem /etc/openvpn/keys/; fi;
+        cp -R /root/files/puppet/* /etc/puppet/;
         puppet apply /etc/puppet/environments/production/manifests/site.pp --confdir=/etc/puppet/ --environment=production --environmentpath=/etc/puppet/environments/
     "
 
