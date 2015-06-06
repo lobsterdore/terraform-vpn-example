@@ -17,7 +17,7 @@ cp /root/files/openvpn/key-store/ca.crt /etc/openvpn/keys/
 cp /root/files/openvpn/key-store/$FQDN.crt /etc/openvpn/keys/
 cp /root/files/openvpn/key-store/$FQDN.key /etc/openvpn/keys/
 
-# Only include-diffie hellman on VPN server
+# Only include diffie hellman on VPN server
 if [ $(hostname --fqdn | cut -f1 -d.) == 'vpn' ]; then
     cp /root/files/openvpn/key-store/dh2048.pem /etc/openvpn/keys/
 fi
@@ -26,7 +26,3 @@ fi
 apt-get --force-yes -y install puppet
 cp -R /root/files/puppet/* /etc/puppet/
 puppet apply /etc/puppet/environments/production/manifests/site.pp --confdir=/etc/puppet/ --environment=production --environmentpath=/etc/puppet/environments/
-
-if [ "$VAGRANT" != '1' ]; then
-    rm -rf /root/files
-fi

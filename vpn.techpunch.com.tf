@@ -16,17 +16,17 @@ resource "digitalocean_droplet" "vpn-techpunch-com" {
       timeout = "2m"
   }
 
-  # Copy openvpn config (need to create symlink in files for puppet and openvpn)
   provisioner "file" {
     source = "files"
     destination = "/root"
   }
 
-  # Bootstrap openvpn
+  # Bootstrap
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
-      "/bin/bash /root/files/shell/bootstrap.sh"
+      "/bin/bash /root/files/shell/bootstrap.sh",
+      "rm -rf /root/files"
     ]
   }
 }
