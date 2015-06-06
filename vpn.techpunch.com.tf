@@ -26,17 +26,7 @@ resource "digitalocean_droplet" "vpn-techpunch-com" {
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
-      "apt-get update",
-      "apt-get -y upgrade",
-      "mkdir -p /etc/openvpn/keys",
-      "cp /root/files/openvpn/key-store/ca.crt /etc/openvpn/keys/",
-      "cp /root/files/openvpn/key-store/vpn.techpunch.com.crt /etc/openvpn/keys/",
-      "cp /root/files/openvpn/key-store/vpn.techpunch.com.key /etc/openvpn/keys/",
-      "cp /root/files/openvpn/key-store/dh2048.pem /etc/openvpn/keys/",
-      "apt-get --force-yes -y install puppet",
-      "cp -R /root/files/puppet/* /etc/puppet/",
-      "puppet apply /etc/puppet/environments/production/manifests/site.pp --confdir=/etc/puppet/ --environment=production --environmentpath=/etc/puppet/environments/",
-      "rm -rf /root/files"
+      "/bin/bash /root/files/shell/bootstrap.sh"
     ]
   }
 }

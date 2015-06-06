@@ -3,13 +3,13 @@ Vagrant.configure(2) do |config|
 
   # Seems that symlinked folders have to be shared individually
   config.vm.synced_folder "files/puppet", "/root/files/puppet"
-
   config.vm.synced_folder "files/openvpn", "/root/files/openvpn"
+  config.vm.synced_folder "files/shell", "/root/files/shell"
 
   config.vm.provision "shell",
     inline: "
       export VAGRANT=1;
-      /bin/bash /vagrant/files/shell/bootstrap.sh
+      /bin/bash /root/files/shell/bootstrap.sh
     "
 
   config.vm.define "vpn" do |vpn|
